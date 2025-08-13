@@ -1,14 +1,16 @@
 <script lang="ts">
-	import '../app.css'; // Tailwind global
+	import '../app.css';
 	import { session, pb } from '$lib/pb';
 	import { goto } from '$app/navigation';
+
 	const { children } = $props();
 	const user = $derived($session ?? null);
 
-	function logout() {
+	// TS-friendly handler signature
+	const logout: (e?: MouseEvent) => void = () => {
 		pb.authStore.clear();
 		goto('/');
-	}
+	};
 </script>
 
 <!-- App shell -->
@@ -24,11 +26,12 @@
 				<!-- Username above logout inside one wider button -->
 				<div class="ml-auto pl-8">
 					<button
-						class="inline-flex w-28 flex-col items-center rounded-xl border px-6 py-2 hover:bg-gray-50 active:scale-[.99]"
+						type="button"
+						class="group inline-flex w-28 flex-col items-center rounded-xl border px-6 py-2 hover:bg-gray-50 active:scale-[.99]"
 						onclick={logout}
 					>
 						<span class="font-bold">{user.username}</span>
-						<span class="text-base leading-tight font-semibold text-gray-900">Logout</span>
+						<span class="text-base text-gray-600 hover:text-gray-900"> Logout </span>
 					</button>
 				</div>
 			{:else}
