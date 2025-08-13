@@ -1,4 +1,5 @@
 import { pb } from '$lib/pb';
+import { goto } from '$app/navigation';
 
 /**
  * Registers a new user using only username and password.
@@ -28,4 +29,6 @@ export async function loginWithUsername(username: string, password: string) {
  */
 export function logout() {
   pb.authStore.clear();
+  // go straight to login so navigation definitely occurs
+  goto('/auth/login', { replaceState: true });
 }

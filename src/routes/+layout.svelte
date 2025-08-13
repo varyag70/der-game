@@ -2,15 +2,9 @@
 	import '../app.css';
 	import { session, pb } from '$lib/pb';
 	import { goto } from '$app/navigation';
-
+	import { logout } from '$lib/auth';
 	const { children } = $props();
 	const user = $derived($session ?? null);
-
-	// TS-friendly handler signature
-	const logout: (e?: MouseEvent) => void = () => {
-		pb.authStore.clear();
-		goto('/');
-	};
 </script>
 
 <!-- App shell -->
@@ -18,10 +12,10 @@
 	<!-- Top nav -->
 	<header class="sticky top-0 z-40 border-b bg-white/80 backdrop-blur">
 		<nav class="mx-auto flex h-20 max-w-4xl items-center gap-4 px-4">
-			<a href="/" class="font-semibold tracking-tight hover:opacity-80">Todo</a>
+			<!--		<a href="/" class="font-semibold tracking-tight hover:opacity-80">Account</a> -->
 
 			{#if user}
-				<a href="/todos" class="text-gray-600 hover:text-gray-900">Todos</a>
+				<a href="/" class="text-gray-600 hover:text-gray-900">Account</a>
 
 				<!-- Username above logout inside one wider button -->
 				<div class="ml-auto pl-8">

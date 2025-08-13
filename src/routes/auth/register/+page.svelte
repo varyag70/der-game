@@ -15,7 +15,7 @@
 
 		try {
 			await registerWithUsername(username, password); // This now logs in the user
-			goto('/todos'); // Redirect to the todo list or dashboard
+			goto('/'); // Redirect to the todo list or dashboard
 		} catch (err) {
 			error = (err as Error).message ?? 'Registration failed';
 		} finally {

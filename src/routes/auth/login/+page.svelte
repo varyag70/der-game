@@ -15,7 +15,7 @@
 		error = '';
 		try {
 			await loginWithUsername(username, password);
-			goto('/todos');
+			goto('/');
 		} catch {
 			error = 'Invalid username or password';
 		} finally {
