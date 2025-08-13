@@ -1,60 +1,56 @@
 <script lang="ts">
-  import { pb } from "$lib/pb";
-  import { goto } from "$app/navigation";
+	import { loginWithUsername } from '$lib/auth';
+	import { goto } from '$app/navigation';
 
-  // local state (runes-friendly)
-  let id = $state("");
-  let password = $state("");
-  let error = $state("");
-  let pending = $state(false);
+	// Runes state (no imports needed)
+	let username = $state('');
+	let password = $state('');
+	let error = $state('');
+	let busy = $state(false);
 
-  async function submit() {
-    error = "";
-    pending = true;
-    try {
-      await pb.collection("users").authWithPassword(id, password);
-      goto("/todos");
-    } catch (e: any) {
-      error = e?.message ?? "Invalid credentials";
-    } finally {
-      pending = false;
-    }
-  }
+	async function submit(e: SubmitEvent) {
+		e.preventDefault(); // replaces |preventDefault and avoids on:submit
+		if (busy) return;
+		busy = true;
+		error = '';
+		try {
+			await loginWithUsername(username, password);
+			goto('/todos');
+		} catch {
+			error = 'Invalid username or password';
+		} finally {
+			busy = false;
+		}
+	}
 </script>
 
-<form
-  class="mx-auto max-w-sm p-6 flex flex-col gap-3"
-  onsubmit={(e) => {
-    e.preventDefault();
-    submit();
-  }}
->
-  <h1 class="text-xl font-bold">Login</h1>
+<form onsubmit={submit} class="mx-auto flex max-w-sm flex-col gap-3 p-6">
+	<h1 class="text-xl font-bold">Login</h1>
 
-  <input
-    class="border rounded p-2"
-    bind:value={id}
-    placeholder="email or username"
-    autocomplete="username"
-  />
+	<input
+		bind:value={username}
+		placeholder="Username"
+		autocomplete="username"
+		class="rounded border p-2"
+		required
+	/>
 
-  <input
-    class="border rounded p-2"
-    type="password"
-    bind:value={password}
-    placeholder="password"
-    autocomplete="current-password"
-  />
+	<input
+		bind:value={password}
+		type="password"
+		placeholder="Password"
+		autocomplete="current-password"
+		class="rounded border p-2"
+		required
+	/>
 
-  {#if error}
-    <p class="text-red-600 text-sm">{error}</p>
-  {/if}
+	<button
+		type="submit"
+		disabled={busy}
+		class="rounded bg-blue-500 p-2 text-white disabled:opacity-50"
+	>
+		{busy ? 'Logging in…' : 'Login'}
+	</button>
 
-  <button
-    type="submit"
-    class="border rounded p-2 disabled:opacity-50"
-    disabled={!id.trim() || !password.trim() || pending}
-  >
-    {pending ? "Signing in…" : "Sign in"}
-  </button>
+	{#if error}<p class="text-red-500">{error}</p>{/if}
 </form>

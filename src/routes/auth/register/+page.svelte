@@ -1,34 +1,48 @@
 <script lang="ts">
-	import { pb } from '$lib/pb';
+	import { registerWithUsername } from '$lib/auth';
 	import { goto } from '$app/navigation';
-	let email = '',
-		username = '',
-		password = '',
+
+	let username = $state('');
+	let password = $state('');
+	let error = $state('');
+	let busy = $state(false);
+
+	async function submit(e: SubmitEvent) {
+		e.preventDefault();
+		if (busy) return;
+		busy = true;
 		error = '';
-	async function submit() {
-		error = '';
+
 		try {
-			await pb.collection('users').create({ email, username, password, passwordConfirm: password });
-			await pb.collection('users').authWithPassword(username || email, password);
-			goto('/todos');
-		} catch (e) {
-			error = 'Registration failed';
+			await registerWithUsername(username, password); // This now logs in the user
+			goto('/todos'); // Redirect to the todo list or dashboard
+		} catch (err) {
+			error = (err as Error).message ?? 'Registration failed';
+		} finally {
+			busy = false;
 		}
 	}
 </script>
 
-<form class="mx-auto flex max-w-sm flex-col gap-3 p-6" on:submit|preventDefault={submit}>
+<form onsubmit={submit} class="mx-auto flex max-w-sm flex-col gap-3 p-6">
 	<h1 class="text-xl font-bold">Register</h1>
-	<input bind:value={email} type="email" placeholder="email" class="rounded border p-2" /><input
-		bind:value={username}
-		placeholder="username"
-		class="rounded border p-2"
-	/><input
+
+	<input bind:value={username} placeholder="Username" class="rounded border p-2" required />
+	<input
 		bind:value={password}
 		type="password"
-		placeholder="password"
+		placeholder="Password"
 		class="rounded border p-2"
-	/>{#if error}<p class="text-sm text-red-600">{error}</p>{/if}<button class="rounded border p-2"
-		>Create account</button
+		required
+	/>
+
+	<button
+		type="submit"
+		disabled={busy}
+		class="rounded bg-blue-500 p-2 text-white disabled:opacity-50"
 	>
+		{busy ? 'Creating…' : 'Sign Up'}
+	</button>
+
+	{#if error}<p class="text-red-500">{error}</p>{/if}
 </form>
