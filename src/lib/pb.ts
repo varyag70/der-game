@@ -2,8 +2,7 @@ import PocketBase from 'pocketbase';
 import { readable } from 'svelte/store';
 //export const PB_URL = import.meta.env.VITE_PB_URL || 'http://127.0.0.1:8090';
 
-export const PB_URL =
-  import.meta.env.VITE_PB_URL ?? '/pb';   // <-- use the same-origin path
+export const PB_URL = import.meta.env.VITE_PB_URL || 'https://derivative-game.com/pb';
 
 //export const PB_URL = import.meta.env.VITE_PB_URL || 'https://derivative-game.com';
 

@@ -19,11 +19,7 @@ package-lock.json
 .DS_Store
 Thumbs.db
 
-# Env
-.env
-.env.*
-!.env.example
-!.env.test
+
 
 # IDE / Editor
 .vscode/*
