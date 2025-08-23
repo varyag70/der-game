@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { registerWithUsername } from '$lib/auth';
+	import { registerUser } from '$lib/auth';
 	import { goto } from '$app/navigation';
 
 	let username = $state('');
@@ -14,7 +14,7 @@
 		error = '';
 
 		try {
-			await registerWithUsername(username, password); // This now logs in the user
+			await registerUser(username, password); // This now logs in the user
 			goto('/'); // Redirect to the todo list or dashboard
 		} catch (err) {
 			error = (err as Error).message ?? 'Registration failed';

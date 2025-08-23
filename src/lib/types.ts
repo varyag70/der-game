@@ -1,4 +1,21 @@
-export type Asset = 'RUB' | 'USD' | 'FORWARD' | 'RUB_MM_Account' | 'USD_MM_Account';
+//export type Asset = 'RUB' | 'USD' | 'FORWARD' | 'RUB_MM_Account' | 'USD_MM_Account';
+
+// src/lib/types.ts
+
+export const assets = [
+  'RUB',
+  'USD',
+  'RUB_MM_Account',
+  'USD_MM_Account',
+  'FORWARD',
+  'BOND',
+  'CALL',
+  'PUT'
+] as const;
+
+export type Asset = typeof assets[number];
+
+export type Positions = Record<Asset, number>;
 
 // src/lib/types.ts
 export type PBError = {

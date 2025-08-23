@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import { session, pb } from '$lib/pb';
+	import { session, pb } from '$lib/pb/pb';
 	import { goto } from '$app/navigation';
 	import { logout } from '$lib/auth';
 	const { children } = $props();

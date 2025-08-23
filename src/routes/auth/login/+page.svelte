@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { loginWithUsername } from '$lib/auth';
+	import { loginUser } from '$lib/auth';
 	import { goto } from '$app/navigation';
 
 	// Runes state (no imports needed)
@@ -14,7 +14,7 @@
 		busy = true;
 		error = '';
 		try {
-			await loginWithUsername(username, password);
+			await loginUser(username, password);
 			goto('/');
 		} catch {
 			error = 'Invalid username or password';

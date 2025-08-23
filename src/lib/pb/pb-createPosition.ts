@@ -1,32 +1,26 @@
 // src/lib/pb-createPosition.ts
 import PocketBase, { type RecordModel } from 'pocketbase';
+import { assets, type Asset } from '$lib/types';
 
 const COLLECTION = 'user_positions';
 
-export type Asset =
-  | 'USD'
-  | 'RUB'
-  | 'USD_MM_Account'
-  | 'RUB_MM_Account'
-  | 'FORWARD'
-  | 'BOND';
-
 export type UserPosition = RecordModel & {
   user: string;
-  assetName: Asset;   // ✅ matches your field
+  assetName: Asset;   // matches your PB field
   x: number;
   price?: number | null;
-  value?: number | null;
 };
 
 // Decimal rules: USD/RUB → 2dp, others → integer
 const ASSET_DECIMALS: Record<Asset, 0 | 2> = {
-  USD: 2,
   RUB: 2,
-  USD_MM_Account: 0,
+  USD: 2,
   RUB_MM_Account: 0,
+  USD_MM_Account: 0,
   FORWARD: 0,
-  BOND: 0
+  BOND: 0,
+  CALL: 0,
+  PUT: 0
 };
 
 function ensureLoggedIn(pb: PocketBase) {
@@ -36,16 +30,8 @@ function ensureLoggedIn(pb: PocketBase) {
 }
 
 function validateAsset(asset: string): Asset {
-  const allowed: Asset[] = [
-    'USD',
-    'RUB',
-    'USD_MM_Account',
-    'RUB_MM_Account',
-    'FORWARD',
-    'BOND'
-  ];
-  if (!allowed.includes(asset as Asset)) {
-    throw new Error(`Invalid asset "${asset}". Allowed: ${allowed.join(', ')}`);
+  if (!assets.includes(asset as Asset)) {
+    throw new Error(`Invalid asset "${asset}". Allowed: ${assets.join(', ')}`);
   }
   return asset as Asset;
 }
@@ -80,7 +66,7 @@ export async function createUserPosition(
 
   const rec = await pb.collection(COLLECTION).create<UserPosition>({
     user: pb.authStore.record!.id,
-    assetName: asset,   // ✅ matches your PB field
+    assetName: asset,
     x
   });
 
@@ -93,9 +79,7 @@ export async function updatePositionPrice(
   price: number
 ): Promise<UserPosition> {
   const rec = await pb.collection(COLLECTION).update<UserPosition>(positionId, {
-    price,
-    // assume you already stored x in the record
-    value: undefined // let backend recalc, or recalc in client:
+    price
   });
 
   return rec;
