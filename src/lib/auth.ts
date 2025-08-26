@@ -48,5 +48,5 @@ export async function loginUser(username: string, password: string) {
 
 export function logout() {
   pb.authStore.clear();
-  goto('/auth/login', { replaceState: true });
+  goto('/auth', { replaceState: true });
 }
