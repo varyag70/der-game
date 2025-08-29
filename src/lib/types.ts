@@ -13,6 +13,17 @@ export const assets = [
   'PUT'
 ] as const;
 
+export const ASSET_IDS: Record<Asset, string> = {
+  RUB: 'rub',
+  USD: 'usd',
+  RUB_MM_Account: 'rub_mm_account',
+  USD_MM_Account: 'usd_mm_account',
+  FORWARD: 'forward',
+  BOND: 'bond',
+  CALL: 'call',
+  PUT: 'put'
+} as const;
+
 export type Asset = typeof assets[number];
 
 export type Positions = Record<Asset, number>;

@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { pb } from '$lib/pb/pb';
 	import { assets } from '$lib/types';
+
 	import {
 		currentPositionsStore,
 		loadCurrentPositions,
@@ -9,34 +10,47 @@
 		stopCurrentPositionsRealtime
 	} from '$lib/positions-store';
 
-	// Runes
-	const currentPositions = $derived($currentPositionsStore);
+	import {
+		pricesStore,
+		priceSourceStore,
+		setupPrices,
+		teardownPrices
+	} from '$lib/prices-store';
 
-	// onMount must return a *sync* cleanup fn
+	// Runes
+	const currentPositions = $derived($currentPositionsStore); // Record<Asset, number>
+	const prices = $derived($pricesStore);                     // Record<Asset, number|null>
+	const priceSource = $derived($priceSourceStore);           // 'global' | 'user'
+
 	onMount(() => {
 		(async () => {
+			// positions
 			await loadCurrentPositions(pb);
 			await subscribeCurrentPositions(pb);
+
+			// prices (reads config/app and wires correct source)
+			await setupPrices(pb);
 		})();
 
+		// sync cleanup
 		return () => {
-			// cleanup (sync)
 			stopCurrentPositionsRealtime(pb);
+			teardownPrices(pb);
 		};
 	});
 
-	// tiny formatter: ints without decimals, others up to 2
-	function fmt(x: number) {
+	function fmt(x: number | null | undefined) {
+		if (x == null) return '—';
 		return Number.isInteger(x) ? x.toString() : x.toFixed(2);
 	}
 </script>
 
-<!-- Simple table (Tailwind optional) -->
 <table class="w-full border-collapse text-sm">
 	<thead>
 		<tr class="border-b">
 			<th class="px-3 py-2 text-left">Asset</th>
 			<th class="px-3 py-2 text-right">Amount</th>
+			<th class="px-3 py-2 text-right">Price</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -44,6 +58,7 @@
 			<tr class="border-b last:border-0">
 				<td class="px-3 py-2">{a}</td>
 				<td class="px-3 py-2 text-right">{fmt(currentPositions[a] ?? 0)}</td>
+				<td class="px-3 py-2 text-right">{fmt(prices[a])}</td>
 			</tr>
 		{/each}
 	</tbody>

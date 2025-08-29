@@ -1,12 +1,12 @@
 // src/lib/pb-createPosition.ts
 import PocketBase, { type RecordModel } from 'pocketbase';
-import { assets, type Asset } from '$lib/types';
+import { assets, ASSET_IDS, type Asset } from '$lib/types';
 
-const COLLECTION = 'user_positions';
+const COLLECTION = 'pos';
 
 export type UserPosition = RecordModel & {
   user: string;
-  assetName: Asset;   // matches your PB field
+  asset: string;               // relation id to `assets` (e.g. "rub")
   x: number;
   price?: number | null;
 };
@@ -53,7 +53,7 @@ function validateXForAsset(asset: Asset, x: number): number {
 }
 
 /**
- * Usage: await createUserPosition(pb, 'USD', 123.45)
+ * Create position: `assetInput` is ticker (e.g. "USD"), we store relation id (e.g. "usd")
  */
 export async function createUserPosition(
   pb: PocketBase,
@@ -64,23 +64,20 @@ export async function createUserPosition(
   const asset = validateAsset(assetInput);
   const x = validateXForAsset(asset, xInput);
 
-  const rec = await pb.collection(COLLECTION).create<UserPosition>({
+  return pb.collection(COLLECTION).create<UserPosition>({
     user: pb.authStore.record!.id,
-    assetName: asset,
+    asset: ASSET_IDS[asset], // relation id in `assets`
     x
   });
-
-  return rec;
 }
 
+/**
+ * Update only price field
+ */
 export async function updatePositionPrice(
   pb: PocketBase,
   positionId: string,
   price: number
 ): Promise<UserPosition> {
-  const rec = await pb.collection(COLLECTION).update<UserPosition>(positionId, {
-    price
-  });
-
-  return rec;
+  return pb.collection(COLLECTION).update<UserPosition>(positionId, { price });
 }
