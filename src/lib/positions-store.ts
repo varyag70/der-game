@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import type PocketBase from 'pocketbase';
-import { assets, ASSET_IDS, type Asset, type Positions } from '$lib/types';
+import { assets, ASSET_IDS, type Asset, type Positions } from '$lib/prices/types';
 
 const COLLECTION = 'pos';
 

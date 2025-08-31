@@ -1,7 +1,7 @@
 // src/lib/prices-store.ts
 import { writable } from 'svelte/store';
 import type PocketBase from 'pocketbase';
-import { assets, ASSET_IDS, type Asset } from '$lib/types';
+import { assets, ASSET_IDS, type Asset } from '$lib/prices/types';
 
 export type PriceSource = 'global' | 'user';
 export type Prices = Record<Asset, number | null>;

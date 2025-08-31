@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { pb } from '$lib/pb/pb';
-	import { assets } from '$lib/types';
+	import { assets } from '$lib/pb/types';
 
 	import {
 		currentPositionsStore,
