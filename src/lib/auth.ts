@@ -1,5 +1,5 @@
 import { pb } from '$lib/pb/pb';
-import { createUserPosition } from '$lib/pb/pb-createPosition';
+import { createUserPosition, ensureStatePosition } from '$lib/pb/pb-createPosition';
 import { isPBError } from '$lib/pb/types';
 import { assets} from '$lib/prices/types';
 import { goto } from '$app/navigation';
@@ -25,7 +25,8 @@ export async function registerUser(username: string, password: string) {
     for (const a of assets) {
       const amount = a === 'RUB' ? 1_000_000 : 0;
       await createUserPosition(pb, a, amount);
-    }
+    };
+    await ensureStatePosition(pb, 0);
 
     return user;
   } catch (err: unknown) {

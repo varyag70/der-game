@@ -23,7 +23,7 @@
 </script>
 
 
-<div class="min-h-dvh bg-gray-50 text-gray-900">
+<div class="min-h-dvh bg-gray-300 text-gray-900">
   <header class="sticky top-0 z-40 border-b bg-white/80 backdrop-blur">
     <nav class="mx-auto flex h-20 max-w-4xl items-center gap-4 px-4">
       <a href="/" class="font-semibold tracking-tight hover:opacity-80">

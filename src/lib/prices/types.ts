@@ -10,6 +10,12 @@ export const assets = [
   'PUT'
 ] as const;
 
+
+// before (implicitly strings)
+export type PricesUnderlying = {
+  USD: number; BOND: number; CALL: number; PUT: number;
+};
+
 export type Asset = typeof assets[number];
 
 export type Underlying = 'USD' | 'BOND' | 'CALL' | 'PUT';
@@ -17,8 +23,8 @@ export type Underlying = 'USD' | 'BOND' | 'CALL' | 'PUT';
 export type PriceSource = 'global' | 'user';
 
 // Decimal-safe strings, RUB numeraire
-export type PricesUnderlying = Record<Underlying, string>;
-export type PricesAll = Record<Asset, string>;
+//export type PricesUnderlying = Record<Underlying, string>;
+export type PricesAll = Record<string, number>;
 
 // Client snapshot (what your store exposes). Server record won’t have prices_all persisted.
 export interface PriceSnapshot {

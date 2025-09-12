@@ -1,6 +1,6 @@
 // src/lib/pb-createPosition.ts
 import PocketBase, { type RecordModel } from 'pocketbase';
-import { assets, ASSET_IDS, type Asset } from '$lib/types';
+import { assets, ASSET_IDS, type Asset } from '$lib/prices/types';
 
 const COLLECTION = 'pos';
 
@@ -70,6 +70,28 @@ export async function createUserPosition(
     x
   });
 }
+
+export async function ensureStatePosition(pb: PocketBase, initial = 0) {
+  const userId = pb.authStore.record?.id;
+  if (!userId) throw new Error('Not authenticated');
+
+  const coll = 'state_position';
+
+  // Try to find existing record (unique per user)
+  const existing = await pb
+    .collection(coll)
+    .getFirstListItem(`user="${userId}"`)
+    .catch(() => null);
+
+  if (existing) return existing;
+
+  // Create initial record
+  return pb.collection(coll).create({
+    user: userId,
+    state: initial, // or omit if you set a default in schema
+  });
+}
+
 
 /**
  * Update only price field
