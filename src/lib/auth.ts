@@ -23,7 +23,7 @@ export async function registerUser(username: string, password: string) {
     // await createUserPosition(pb, 'USD', 0);
 
     for (const a of assets) {
-      const amount = a === 'RUB' ? 1_000_000 : 0;
+      const amount = a === 'RUB' ? 100_000_000 : 0;
       await createUserPosition(pb, a, amount);
     };
     await ensureStatePosition(pb, 0);
