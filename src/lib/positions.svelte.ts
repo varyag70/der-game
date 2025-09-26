@@ -1,5 +1,5 @@
 import type PocketBase from 'pocketbase';
-import { assets, ASSET_IDS, type Asset, type Positions } from '$lib/prices/types';
+import { assets, ASSET_IDS, type Asset, type Positions } from '$lib/types/pricesTypes';
 
 const POS_COLLECTION = 'pos';
 

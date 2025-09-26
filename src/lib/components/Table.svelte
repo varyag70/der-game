@@ -1,6 +1,6 @@
 <script lang="ts">
   import { pb } from '$lib/pb/pb';
-  import { assets } from '$lib/prices/types';
+  import { assets } from '$lib/types/pricesTypes';
 
   import { priceSnapshot, subscribeStateTrading, teardownStateTrading } from '$lib/prices/priceSnapshot.svelte';
   import { positions, loadPositions } from '$lib/positions.svelte';          // ← adjust path if needed

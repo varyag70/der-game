@@ -1,6 +1,6 @@
 // src/lib/prices/priceSnapshot.svelte.ts
 import type PocketBase from 'pocketbase';
-import type { PricesAll, PricesUnderlying } from './types';
+import type { PricesAll, PricesUnderlying } from '$lib/types/pricesTypes';
 
 /** Shared rune state (stable identity; mutate properties only) */
 export const priceSnapshot = $state({

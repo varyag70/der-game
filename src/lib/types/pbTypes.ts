@@ -1,5 +1,3 @@
-
-// src/lib/types.ts
 export type PBError = {
   data?: {
     message?: string;
@@ -13,4 +11,4 @@ export type PBError = {
 
 export function isPBError(err: unknown): err is PBError {
   return typeof err === 'object' && err !== null && 'data' in err;
-}
+};

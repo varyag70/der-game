@@ -1,7 +1,7 @@
 import { pb } from '$lib/pb/pb';
 import { createUserPosition, ensureStatePosition } from '$lib/pb/pb-createPosition';
-import { isPBError } from '$lib/pb/types';
-import { assets} from '$lib/prices/types';
+import { isPBError } from '$lib/types/pbTypes';
+import { assets} from '$lib/types/pricesTypes';
 import { goto } from '$app/navigation';
 
 export async function registerUser(username: string, password: string) {
