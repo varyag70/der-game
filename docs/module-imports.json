@@ -1,0 +1,109 @@
+[
+  {
+    "file": "src/app.d.ts",
+    "imports": []
+  },
+  {
+    "file": "src/lib/auth.ts",
+    "imports": [
+      "$app/navigation",
+      "$lib/pb/pb",
+      "$lib/pb/pb-createPosition",
+      "$lib/types/pbTypes",
+      "$lib/types/pricesTypes"
+    ]
+  },
+  {
+    "file": "src/lib/components/AuthForm.svelte",
+    "imports": [
+      "$app/navigation",
+      "$lib/auth"
+    ]
+  },
+  {
+    "file": "src/lib/components/Table.svelte",
+    "imports": [
+      "$lib/pb/pb",
+      "$lib/positions.svelte",
+      "$lib/prices/priceSnapshot.svelte",
+      "$lib/statePosition.svelte",
+      "$lib/types/pricesTypes"
+    ]
+  },
+  {
+    "file": "src/lib/components/Transaction.svelte",
+    "imports": [
+      "$lib/positions.svelte",
+      "$lib/prices/priceSnapshot.svelte"
+    ]
+  },
+  {
+    "file": "src/lib/pb/pb-createPosition.ts",
+    "imports": [
+      "$lib/prices/types",
+      "pocketbase"
+    ]
+  },
+  {
+    "file": "src/lib/pb/pb.ts",
+    "imports": [
+      "pocketbase",
+      "svelte/store"
+    ]
+  },
+  {
+    "file": "src/lib/positions.svelte.ts",
+    "imports": [
+      "$lib/types/pricesTypes",
+      "pocketbase"
+    ]
+  },
+  {
+    "file": "src/lib/prices/priceSnapshot.svelte.ts",
+    "imports": [
+      "$lib/types/pricesTypes",
+      "pocketbase"
+    ]
+  },
+  {
+    "file": "src/lib/statePosition.svelte.ts",
+    "imports": [
+      "$lib/positions.svelte",
+      "pocketbase"
+    ]
+  },
+  {
+    "file": "src/lib/types/pbTypes.ts",
+    "imports": []
+  },
+  {
+    "file": "src/lib/types/pricesTypes.ts",
+    "imports": []
+  },
+  {
+    "file": "src/routes/+layout.svelte",
+    "imports": [
+      "$app/navigation",
+      "$app/stores",
+      "$lib/auth",
+      "$lib/pb/pb",
+      "../app.css"
+    ]
+  },
+  {
+    "file": "src/routes/+layout.ts",
+    "imports": []
+  },
+  {
+    "file": "src/routes/+page.svelte",
+    "imports": [
+      "$lib/components/Table.svelte"
+    ]
+  },
+  {
+    "file": "src/routes/auth/+page.svelte",
+    "imports": [
+      "$lib/components/AuthForm.svelte"
+    ]
+  }
+]
